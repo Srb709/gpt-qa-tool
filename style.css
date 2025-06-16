@@ -1,0 +1,246 @@
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY STYLING */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+  color: #f1f1f1;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* MAIN CONTAINER */
+main {
+  background-color: #1f1f1f;
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+/* HEADING */
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #00c6ff;
+  text-shadow: 0 0 6px #00c6ff66;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* CHAT AREA */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* TEXT AREA */
+textarea {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1rem;
+  height: 120px;
+  resize: none;
+  transition: border 0.3s ease;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #00c6ff;
+}
+
+/* BUTTON */
+button {
+  padding: 0.75rem;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #0072ff, #00c6ff);
+  box-shadow: 0 0 12px #00c6ff88;
+}
+
+/* RESPONSE BOX */
+#response-box {
+  margin-top: 1rem;
+  background-color: #2b2b2b;
+  padding: 1rem;
+  border-radius: 12px;
+  min-height: 80px;
+  border: 1px solid #3a3a3a;
+  font-size: 1rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
+}
+
+/* GPT "bubble" icon */
+#response-box::before {
+  content: "🤖";
+  position: absolute;
+  top: -14px;
+  left: 12px;
+  font-size: 1.1rem;
+}
+
+/* LOADING ANIMATION */
+.loading {
+  animation: pulse 1s infinite;
+  color: #999;
+  font-style: italic;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 640px) {
+  main {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  textarea {
+    font-size: 0.95rem;
+  }
+
+  button {
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 400px) {
+  main {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  textarea {
+    font-size: 0.9rem;
+    height: 100px;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+}
+/* DARK MODE SUPPORT */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+    color: #f1f1f1;
+  }
+
+  main {
+    background-color: #1f1f1f;
+  }
+
+  textarea {
+    background-color: #2a2a2a;
+    color: #fff;
+    border: 1px solid #444;
+  }
+
+  button {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+  }
+
+  #response-box {
+    background-color: #2b2b2b;
+    border: 1px solid #3a3a3a;
+  }
+}
+/* LIGHT MODE SUPPORT */
+@media (prefers-color-scheme: light) {
+  body {
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    color: #333333;
+  }
+
+  main {
+    background-color: #ffffff;
+  }
+
+  textarea {
+    background-color: #f9f9f9;
+    color: #333;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
+  }
+
+  #response-box {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+  }
+}
+/* HIGH CONTRAST MODE SUPPORT */
+@media (prefers-contrast: more) {
+  body {
+    background: #000;
+    color: #fff;
+  }
+
+  main {
+    background-color: #000;
+    border: 2px solid #fff;
+  }
+
+  textarea {
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #fff;
+  }
+
+  button {
+    background: #000;
+    border: 2px solid #fff;
+    color: #fff;
+  }
+
+  #response-box {
+    background-color: #000;
+    border: 2px solid #fff;
+  }
+}
+/* REDUCED MOTION SUPPORT */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+/* END OF STYLE.CSS */
