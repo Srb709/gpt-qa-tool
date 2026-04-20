@@ -1,66 +1,70 @@
-// Select UI elements
-const submitBtn = document.getElementById("submit-btn");
-const userInput = document.getElementById("user-input");
-const responseBox = document.getElementById("response-box");
+const button = document.getElementById("submit-btn");
+const output = document.getElementById("response-box");
 
-// Set up your OpenAI key (✅ replace this with your actual one)
-const OPENAI_API_KEY = "ADD YOUR OPENAI API KEY HERE";
+function formatMoney(n) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
+  }).format(n || 0);
+}
 
-// Set model to GPT-3.5 only
-const GPT_MODEL = "gpt-3.5-turbo";
+button.addEventListener("click", () => {
+  const list = Number(document.getElementById("list-price").value || 0);
+  const offer = Number(document.getElementById("offer-price").value || 0);
+  const assist = Number(document.getElementById("seller-assist").value || 0);
+  const down = Number(document.getElementById("down-percent").value || 0);
+  const gap = Number(document.getElementById("appraisal-gap").value || 0);
+  const competing = Number(document.getElementById("competing-offers").value || 0);
 
-// Button click listener
-submitBtn.addEventListener("click", async () => {
-  const question = userInput.value.trim();
-  if (!question) {
-    responseBox.textContent = "Please enter a question.";
+  const inspection = document.getElementById("inspection-type").value;
+  const financing = document.getElementById("financing-type").value;
+
+  if (!list || !offer) {
+    output.textContent = "Put in at least list price and offer price.";
     return;
   }
-  
-  userInput.value = ""; // ✅ Clears the input box after submission
 
+  let score = 50;
 
-  responseBox.textContent = "Thinking...";
-  responseBox.classList.add("loading");
+  const net = offer - assist;
+  const overAsk = ((offer - list) / list) * 100;
 
-  try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: GPT_MODEL,
-        messages: [
-          { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: question }
-        ],
-        temperature: 0.7
-      })
-    });
+  score += Math.min(20, Math.max(-15, overAsk * 3));
+  score += Math.min(15, down * 0.5);
+  score += Math.min(12, gap / 2500);
 
-    const result = await response.json();
+  if (inspection === "waived") score += 18;
+  if (inspection === "info") score += 8;
+  if (inspection === "full") score -= 8;
 
-    if (!response.ok) {
-      const errorMessage = result?.error?.message || "Unknown error.";
-      responseBox.textContent = `Error: ${errorMessage}`;
-      console.error("OpenAI Error:", result);
-      return;
-    }
+  if (financing === "cash") score += 18;
+  if (financing === "conv") score += 8;
+  if (financing === "fha") score -= 8;
+  if (financing === "va") score -= 6;
 
-    const reply = result.choices?.[0]?.message?.content || "No response from GPT.";
-    responseBox.textContent = reply.trim();
-    responseBox.classList.remove("loading");
+  score -= Math.min(10, competing * 1.5);
 
-  } catch (error) {
-    console.error("Fetch Error:", error);
-    responseBox.textContent = "Something went wrong. Check the console.";
-  }
-});
-// Optional: Allow pressing Enter to submit
-userInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    submitBtn.click();
-  }
+  score = Math.max(1, Math.min(99, Math.round(score)));
+
+  let strength = "Decent but not strong";
+
+  if (score >= 75) strength = "Strong offer";
+  else if (score < 45) strength = "Weak offer";
+
+  const result = `
+Strength: ${strength}
+Score: ${score}/99
+
+Seller Net: ${formatMoney(net)}
+Over Asking: ${overAsk.toFixed(2)}%
+
+What seller sees:
+${score >= 75 ? "This is a serious offer and should compete." : score >= 45 ? "This has a shot but is not a lock." : "This likely loses in a multiple offer situation."}
+
+Client text:
+Based on everything, this looks ${score >= 75 ? "strong" : score >= 45 ? "competitive but not bulletproof" : "a little weak"}. The seller is focused on net money, risk, and clean terms. Right now your offer nets them ${formatMoney(net)}. If we want to improve it, the easiest levers are price, appraisal gap, or inspection terms.
+`;
+
+  output.textContent = result.trim();
 });
