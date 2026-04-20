@@ -3,40 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Ask GPT – AI Q&A Tool</title>
-
-  <!-- Meta tags for SEO and professionalism -->
-  <meta name="description" content="A clean, AI-powered Q&A assistant built with GPT-3.5 and OpenAI's API." />
-  <meta name="author" content="Steven Brooks" />
-  <meta name="robots" content="index, follow" />
-  <meta name="keywords" content="AI, GPT, OpenAI, chatbot, frontend, JavaScript, project" />
-
-  <!-- Social sharing (optional for LinkedIn/resume portfolios) -->
-  <meta property="og:title" content="Ask GPT – AI Q&A Tool" />
-  <meta property="og:description" content="Built using HTML, CSS, JavaScript, and OpenAI's GPT API." />
-  <meta property="og:image" content="https://yourdomain.com/preview.jpg" /> <!-- Replace if hosting image -->
-  <meta property="og:type" content="website" />
-
-  <!-- Favicon (optional, we can add one later) -->
-  <link rel="icon" href="artificial-intelligence.png" type="image/png" />
-
-  <!-- CSS Link -->
+  <title>Realtor Offer Analyzer</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
   <main>
-    <h1>Ask Me Anything (GPT‑Style)</h1>
+    <h1>Realtor Offer Analyzer</h1>
+    <p class="subtext">Put the deal terms in and get a fast read on how strong the offer looks.</p>
 
     <div class="chat-container">
-      <textarea id="user-input" placeholder="Type your question here..." aria-label="User question input"></textarea>
-      <button id="submit-btn" aria-label="Submit question to GPT">Send to GPT</button>
-      <div id="response-box" aria-live="polite"></div>
+      <label for="list-price">List price</label>
+      <input id="list-price" type="number" placeholder="450000" />
+
+      <label for="offer-price">Offer price</label>
+      <input id="offer-price" type="number" placeholder="470000" />
+
+      <label for="seller-assist">Seller assist</label>
+      <input id="seller-assist" type="number" placeholder="0" />
+
+      <label for="down-percent">Down payment percent</label>
+      <input id="down-percent" type="number" placeholder="10" />
+
+      <label for="inspection-type">Inspection</label>
+      <select id="inspection-type">
+        <option value="full">Full inspection contingency</option>
+        <option value="info">Inspection for info only</option>
+        <option value="waived">Inspection waived</option>
+      </select>
+
+      <label for="appraisal-gap">Appraisal gap coverage</label>
+      <input id="appraisal-gap" type="number" placeholder="10000" />
+
+      <label for="financing-type">Financing</label>
+      <select id="financing-type">
+        <option value="conv">Conventional</option>
+        <option value="cash">Cash</option>
+        <option value="fha">FHA</option>
+        <option value="va">VA</option>
+      </select>
+
+      <label for="competing-offers">Competing offers</label>
+      <input id="competing-offers" type="number" placeholder="5" />
+
+      <button id="submit-btn">Analyze Offer</button>
+
+      <div id="response-box"></div>
     </div>
   </main>
 
-  <!-- JavaScript Logic -->
   <script src="script.js"></script>
 </body>
 </html>
